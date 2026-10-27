@@ -1,0 +1,68 @@
+/* DataFarm additions on top of the PyRUA-Lean page style (pyrualean.css). Palette as in the paper figures:
+   ours #8B1414, accent #C8501A, navy #1F2A44, baseline blue-grey #A3ADB8. */
+:root { --df-red: #8B1414; --df-orange: #C8501A; --df-navy: #1F2A44; --df-base: #A3ADB8; --df-frame: #8C9AAE; }
+
+/* wordmark */
+.df-logo { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-weight: 800; font-size: clamp(2.6rem, 8vw, 4.6rem);
+  line-height: 1.05; letter-spacing: -0.02em; margin-top: 0.6rem; }
+.df-py { background: linear-gradient(90deg, var(--df-red) 0%, #B3261E 55%, var(--df-orange) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+.df-dash { color: var(--df-frame); }
+.df-farm { color: var(--df-navy); }
+.df-tag { color: #475569; font-size: 1.02rem; margin: 0.35rem 0 1.6rem; letter-spacing: 0.01em; }
+.df-tag b { color: var(--df-red); }
+.publication-authors .author-name { color: #363636; }
+
+/* figures */
+.df-figure { margin: 0 auto 1.8rem; }
+.df-figure img { display: block; width: 100%; height: auto; border-radius: 8px; }
+.df-figure figcaption, .df-note { color: #475569; font-size: 0.93rem; line-height: 1.5; margin-top: 0.6rem; }
+.df-figure.df-narrow { max-width: 860px; }
+.df-figure.df-small { max-width: 620px; }
+
+/* segmented control and tabs */
+.df-card { background: #fff; border: 1px solid #E6E9ED; border-radius: 12px; padding: 1.1rem 1.2rem 0.9rem; }
+.df-card-head { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+.df-seg { display: inline-flex; border: 1px solid #E6E9ED; border-radius: 999px; padding: 3px; background: #F7F8FA; }
+.df-seg-btn { border: 0; background: transparent; border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.9rem; font-weight: 600; color: #475569; cursor: pointer; }
+.df-seg-btn.active { background: var(--df-red); color: #fff; }
+.df-legend { font-size: 0.88rem; color: #475569; }
+.df-legend .sw { display: inline-block; width: 0.9rem; height: 0.6rem; border-radius: 2px; margin: 0 0.3rem 0 0.8rem; vertical-align: middle; }
+.df-legend .sw.teleop { background: var(--df-base); }
+.df-legend .sw.ours { background: var(--df-red); }
+.df-legend .sw.simdr { background: #B39250; }
+.df-chart svg { display: block; width: 100%; height: auto; }
+.df-chart .bar { transition: height .35s ease, y .35s ease; }
+.df-chart text { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; }
+
+.df-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin: 0 auto 1rem; }
+.df-tabs button { border: 1px solid #E6E9ED; background: #fff; border-radius: 999px; padding: 0.35rem 0.95rem; font-size: 0.92rem; font-weight: 600; color: #475569; cursor: pointer; }
+.df-tabs button:hover { border-color: var(--df-red); color: var(--df-red); }
+.df-tabs button.active { background: var(--df-red); border-color: var(--df-red); color: #fff; }
+.real-item figcaption strong.is-teleop { color: #596675; }
+
+/* side-by-side generated clips */
+.df-video-wide { margin: 0 auto; max-width: 1100px; }
+.df-video-wide video { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid #E6E9ED; background: #F4F6F8; }
+.df-video-wide figcaption { display: grid; grid-template-columns: 1fr 1fr; text-align: center; font-size: 0.95rem; font-weight: 600; color: #596675; padding-top: 0.5rem; }
+.df-video-wide figcaption.three { grid-template-columns: 1fr 1fr 1fr; }
+.df-video-wide figcaption .ours { color: var(--df-red); }
+
+/* new appearances: 2x2 grid of renders, simulator inset burnt in */
+.df-ood-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; max-width: 1100px; margin: 0 auto; }
+.df-ood { margin: 0; min-width: 0; }
+.df-ood video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 10px; border: 1px solid #E6E9ED; background: #F4F6F8; }
+.df-ood figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.2rem 0.8rem; padding-top: 0.45rem; font-size: 0.9rem; color: #596675; }
+.df-ood figcaption strong { color: var(--df-red); }
+
+/* farm steps */
+.df-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem 1.4rem; }
+.df-step { display: flex; gap: 0.75rem; align-items: flex-start; background: #fff; border: 1px solid #E6E9ED; border-radius: 12px; padding: 0.85rem 1rem; color: #475569; font-size: 0.95rem; line-height: 1.5; }
+.df-step b { color: var(--df-navy); }
+.df-step-n { flex: none; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--df-red); color: #fff; font-weight: 700; display: grid; place-items: center; }
+
+@media (max-width: 768px) {
+  .df-steps, .df-ood-grid { grid-template-columns: 1fr; }
+  .df-card-head { flex-direction: column; align-items: flex-start; }
+  .df-video-wide figcaption { font-size: 0.82rem; }
+}
