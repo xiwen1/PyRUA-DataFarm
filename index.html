@@ -137,7 +137,7 @@
     <div class="container is-max-widescreen" style="margin-top:2rem">
       <figure class="df-figure">
         <img src="static/images/teaser.jpg" alt="What the farm delivers: simulator vs. rendered frames for five tasks, scene variation by text, real-robot successes, and cost." loading="lazy">
-        <figcaption><b>What the farm delivers.</b> (a) The same frame of a simulator rollout and of our H3 rendering for each of the five tasks; the rendering is photographic and keeps the simulated arm pose, objects, and contacts (insets enlarge the dashed regions). (b) From a request and one calibration episode, the agent builds the task in simulation, and the video model renders each rollout in the original scene or in a new scene described by text. (c) Real-robot successes of policies trained only on farm data or on the same number of teleoperated episodes, in the original scene and under unseen appearance. (d) Mean costs over the five tasks.</figcaption>
+        <figcaption><b>What the farm delivers.</b> (a) The same frame of a simulator rollout and of our rendering for each of the five tasks; the rendering is photographic and keeps the simulated arm pose, objects, and contacts (insets enlarge the dashed regions). (b) From a request and one calibration episode, the agent builds the task in simulation, and the video model renders each rollout in the original scene or in a new scene described by text. (c) Real-robot successes of policies trained only on farm data or on the same number of teleoperated episodes, in the original scene and under unseen appearance. (d) Mean costs over the five tasks.</figcaption>
       </figure>
     </div>
 
@@ -216,7 +216,7 @@
       </div>
       <figure class="df-video-wide">
         <video id="gen-video" muted playsinline loop autoplay controls preload="metadata" poster="static/videos/gen_cups.jpg"><source src="static/videos/gen_cups.mp4" type="video/mp4"></video>
-        <figcaption><span>Simulator</span><span class="ours" id="gen-ours-label">DataFarm render (H3)</span></figcaption>
+        <figcaption><span>Simulator</span><span class="ours" id="gen-ours-label">DataFarm render</span></figcaption>
       </figure>
 
       <h3 class="title is-4 has-text-centered" style="margin-top:2.6rem">New tabletops and lighting</h3>
@@ -224,30 +224,30 @@
       <div class="df-ood-grid">
         <figure class="df-ood">
           <video muted playsinline loop autoplay controls preload="metadata" poster="static/videos/ood_lamp.jpg"><source src="static/videos/ood_lamp.mp4" type="video/mp4"></video>
-          <figcaption><strong>Warm lamp light</strong><span>Pull drawer &middot; Seedance &middot; 2&times;</span></figcaption>
+          <figcaption><strong>Warm lamp light</strong><span>Pull drawer &middot; 2&times;</span></figcaption>
         </figure>
         <figure class="df-ood">
           <video muted playsinline loop autoplay controls preload="metadata" poster="static/videos/ood_felt.jpg"><source src="static/videos/ood_felt.mp4" type="video/mp4"></video>
-          <figcaption><strong>Blue felt</strong><span>Stack cups &middot; Seedance &middot; 2.4&times;</span></figcaption>
+          <figcaption><strong>Blue felt</strong><span>Stack cups &middot; 2.4&times;</span></figcaption>
         </figure>
         <figure class="df-ood">
           <video muted playsinline loop autoplay controls preload="metadata" poster="static/videos/ood_marble.jpg"><source src="static/videos/ood_marble.mp4" type="video/mp4"></video>
-          <figcaption><strong>Marble table</strong><span>Beat drum &middot; Seedance &middot; 1.5&times;</span></figcaption>
+          <figcaption><strong>Marble table</strong><span>Beat drum &middot; 1.5&times;</span></figcaption>
         </figure>
         <figure class="df-ood">
           <video muted playsinline loop autoplay controls preload="metadata" poster="static/videos/ood_steel.jpg"><source src="static/videos/ood_steel.mp4" type="video/mp4"></video>
-          <figcaption><strong>Brushed steel</strong><span>Weigh apple &middot; H3 &middot; 1&times;</span></figcaption>
+          <figcaption><strong>Brushed steel</strong><span>Weigh apple &middot; 1&times;</span></figcaption>
         </figure>
       </div>
 
       <h3 class="title is-4 has-text-centered" style="margin-top:2.6rem">Real, simulated, domain-randomized, and farm episodes</h3>
       <figure class="df-figure"><img src="static/images/data_comparison.jpg" alt="Real, simulator, Sim + DR, and farm frames for five tasks" loading="lazy">
-        <figcaption>Real, simulated, and farm episodes at the same task phase (head view). Sim + DR adds domain-randomized textures and lighting to the simulator frame, and ours renders the simulator frame (renderer in the corner). Real and simulated frames come from different episodes, so object placements differ. Kernel distance (KID, &times;10<sup>3</sup>) of head-view frames to real camera frames: 0.83 for H3 and 0.88 for Seedance, against 1.93 for the simulator and 2.50 with domain randomization.</figcaption></figure>
+        <figcaption>Real, simulated, and farm episodes at the same task phase (head view). Sim + DR adds domain-randomized textures and lighting to the simulator frame, and ours renders the simulator frame. Real and simulated frames come from different episodes, so object placements differ. Kernel distance (KID, &times;10<sup>3</sup>) of head-view frames to real camera frames: 0.83&ndash;0.88 for farm renders, against 1.93 for the simulator and 2.50 with domain randomization.</figcaption></figure>
 
       <h3 class="title is-4 has-text-centered" style="margin-top:2.6rem">Do renders keep the simulated motion?</h3>
       <p class="section-sub">Action labels stay valid only if the video shows the motion the simulator executed. We compare the optical flow of each render with that of its untextured simulator video.</p>
       <figure class="df-figure df-small"><img src="static/images/flow.jpg" alt="Optical-flow error and agreement between renders and the simulator video, per task" loading="lazy">
-        <figcaption>Averaged over the five tasks, H3 renders deviate from the simulated flow by 4.4 pixels and agree on 65% of moving pixels, close to Sim + DR (3.4 pixels, 73%), which has exactly the simulated motion. The same renders paired with the simulator video 0.5 s later reach 8.8 pixels and 41%, so the measure separates matched from mismatched motion.</figcaption></figure>
+        <figcaption>Averaged over the five tasks, farm renders deviate from the simulated flow by 4.4 pixels and agree on 65% of moving pixels, close to Sim + DR (3.4 pixels, 73%), which has exactly the simulated motion. The same renders paired with the simulator video 0.5 s later reach 8.8 pixels and 41%, so the measure separates matched from mismatched motion.</figcaption></figure>
 
       <h3 class="title is-4 has-text-centered" style="margin-top:2.6rem">Objects that are hard to simulate</h3>
       <figure class="df-figure df-small"><img src="static/images/hard_objects.jpg" alt="Lit scale display, drum, and towel: simulator, farm render, and real" loading="lazy">
@@ -296,7 +296,7 @@
             "note": "Original scene: DataFarm 93, teleop data 84, Sim + DR 26 successes in 100 trials."},
     "ood": {"teleop": [6, 12, 8, 11, 9, 46], "simdr": [4, 0, 7, 6, 4, 21], "ours": [17, 18, 20, 18, 14, 87], "n": [20, 20, 20, 20, 20, 100],
             "note": "Unseen tablecloth and coloured light: DataFarm 87, teleop data 46, Sim + DR 21 successes in 100 trials."},
-    "genLabel": {"cups": "DataFarm render (H3)", "apple": "DataFarm render (Seedance, new tabletop) \u00b7 2\u00d7", "drum": "DataFarm render (Seedance, marble table) \u00b7 1.5\u00d7", "drawer": "DataFarm render (H3)", "towel": "DataFarm render (Seedance)"}
+    "genLabel": {"cups": "DataFarm render", "apple": "DataFarm render (new tabletop) \u00b7 2\u00d7", "drum": "DataFarm render (marble table) \u00b7 1.5\u00d7", "drawer": "DataFarm render", "towel": "DataFarm render"}
   }</script>
   </main>
 
