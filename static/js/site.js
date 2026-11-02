@@ -255,41 +255,48 @@ function setupChart(data) {
   } else show('ood');
 }
 
-/* ---------------- cost: cumulative cost for N episodes of one task (means over five tasks) ---------------- */
+/* ---------------- cost: farm cost per episode for N episodes of one task (band = range over tasks; flat lines = teleoperation estimates) ---------------- */
 function setupCost(data) {
   const host = $('#cost-chart'), read = $('#cost-read');
   if (!host) return;
-  const c = data.cost, W = 640, H = 380, L = 56, R = 18, T = 20, B = 46, N = c.nmax;
-  const farm = n => c.adapt + c.calib + c.m * n, tel = n => c.teleop * n, teln = n => c.teleopNew * n;
-  const ymax = Math.ceil(teln(N) / 100) * 100;
-  const X = n => L + (W - L - R) * n / N, Y = v => T + (H - T - B) * (1 - v / ymax);
-  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Cumulative cost of N episodes' });
-  for (let v = 0; v <= ymax; v += 200) {
+  const c = data.cost, W = 640, H = 380, L = 56, R = 18, T = 20, B = 46, N0 = c.nmin, N1 = c.nmax, K = c.adapt.length;
+  const per = (i, n) => c.adapt[i] / n + c.m[i];
+  const mean = n => c.adapt.reduce((s, _, i) => s + per(i, n), 0) / K;
+  const lo = n => Math.min(...c.adapt.map((_, i) => per(i, n))), hi = n => Math.max(...c.adapt.map((_, i) => per(i, n)));
+  const mMean = c.m.reduce((s, v) => s + v, 0) / K, ymax = Math.ceil(hi(N0));
+  const X = n => L + (W - L - R) * Math.log10(n / N0) / Math.log10(N1 / N0), Y = v => T + (H - T - B) * (1 - v / ymax);
+  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Farm cost per episode for N episodes of one task, against two teleoperation estimates' });
+  for (let v = 0; v <= ymax; v += 1) {
     svg.appendChild(svgEl('line', { x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: 'rgba(255,255,255,0.07)' }));
     svg.appendChild(svgEl('text', { x: L - 8, y: Y(v) + 4, 'text-anchor': 'end', 'font-size': 12, fill: '#7D8899' }, '$' + v));
   }
-  for (let n = 0; n <= N; n += 100) svg.appendChild(svgEl('text', { x: X(n), y: H - B + 18, 'text-anchor': 'middle', 'font-size': 12, fill: '#7D8899' }, n));
-  svg.appendChild(svgEl('text', { x: (L + W - R) / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 12, fill: '#9AA5B4' }, 'episodes of one task'));
-  const line = (f, col, dash, w) => svg.appendChild(svgEl('line', { x1: X(0), y1: Y(f(0)), x2: X(N), y2: Y(f(N)), stroke: col, 'stroke-width': w, 'stroke-dasharray': dash || '', 'stroke-linecap': 'round' }));
-  line(teln, '#A3ADB8', '6 6', 2.2); line(tel, '#A3ADB8', '', 2.6); line(farm, '#E26A58', '', 3.4);
-  const lab = (n, f, t, col, dy) => svg.appendChild(svgEl('text', { x: X(n) - 6, y: Y(f(n)) + dy, 'text-anchor': 'end', 'font-size': 12.5, 'font-weight': 700, fill: col }, t));
-  lab(N, teln, 'teleoperation, new appearance', '#C3CBD5', -10); lab(N, tel, 'teleoperation', '#C3CBD5', -10); lab(N, farm, 'DataFarm', '#FF8A78', 22);
-  // crossings
-  [[c.teleopNew, '≈' + Math.round((c.adapt + c.calib) / (c.teleopNew - c.m) / 10) * 10], [c.teleop, '≈' + Math.round((c.adapt + c.calib) / (c.teleop - c.m) / 10) * 10]].forEach(([rate, t]) => {
-    const n = (c.adapt + c.calib) / (rate - c.m);
-    svg.appendChild(svgEl('line', { x1: X(n), x2: X(n), y1: Y(farm(n)), y2: Y(0), stroke: 'rgba(226,106,88,0.5)', 'stroke-dasharray': '3 4' }));
-    svg.appendChild(svgEl('circle', { cx: X(n), cy: Y(farm(n)), r: 6, fill: '#0A0E16', stroke: '#E26A58', 'stroke-width': 2.5 }));
-    svg.appendChild(svgEl('text', { x: X(n) + 9, y: Y(farm(n)) + 18, 'font-size': 12.5, 'font-weight': 700, fill: '#FF8A78' }, t + ' episodes'));
+  [10, 20, 50, 100, 200, 500, 1000].forEach(n => svg.appendChild(svgEl('text', { x: X(n), y: H - B + 18, 'text-anchor': 'middle', 'font-size': 12, fill: '#7D8899' }, n.toLocaleString('en-US'))));
+  svg.appendChild(svgEl('text', { x: (L + W - R) / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 12, fill: '#9AA5B4' }, 'episodes of one task (log scale)'));
+  const ns = []; for (let k = 0; k <= 60; k++) ns.push(N0 * Math.pow(N1 / N0, k / 60));
+  const pts = (f, arr) => arr.map(n => `${X(n).toFixed(1)},${Y(f(n)).toFixed(1)}`).join(' ');
+  svg.appendChild(svgEl('polygon', { points: pts(hi, ns) + ' ' + pts(lo, ns.slice().reverse()), fill: 'rgba(226,106,88,0.16)' }));
+  svg.appendChild(svgEl('line', { x1: X(N0), x2: X(N1), y1: Y(mMean), y2: Y(mMean), stroke: '#A3ADB8', 'stroke-dasharray': '6 6', 'stroke-width': 1.6 }));
+  svg.appendChild(svgEl('text', { x: X(N1) - 6, y: Y(mMean) + 18, 'text-anchor': 'end', 'font-size': 12.5, 'font-weight': 700, fill: '#C3CBD5' }, `per-episode cost $${mMean.toFixed(2)}`));
+  svg.appendChild(svgEl('line', { x1: X(N0), x2: X(N1), y1: Y(c.teleop), y2: Y(c.teleop), stroke: '#E8EDF4', 'stroke-dasharray': '10 4 2 4', 'stroke-width': 1.8 }));
+  svg.appendChild(svgEl('text', { x: X(N1) - 6, y: Y(c.teleop) - 8, 'text-anchor': 'end', 'font-size': 12.5, 'font-weight': 700, fill: '#E8EDF4' }, `teleoperation labour, North America*: $${c.teleop.toFixed(2)}`));
+  svg.appendChild(svgEl('line', { x1: X(N0), x2: X(N1), y1: Y(c.teleopCn), y2: Y(c.teleopCn), stroke: '#F0B35A', 'stroke-dasharray': '10 4 2 4', 'stroke-width': 1.8 }));
+  svg.appendChild(svgEl('text', { x: X(N0) + 6, y: Y(c.teleopCn) - 8, 'font-size': 12.5, 'font-weight': 700, fill: '#F0B35A' }, `teleoperation quote, China: $${c.teleopCn.toFixed(2)}`));
+  svg.appendChild(svgEl('polyline', { points: pts(mean, ns), fill: 'none', stroke: '#E26A58', 'stroke-width': 3.4, 'stroke-linecap': 'round' }));
+  svg.appendChild(svgEl('text', { x: X(14), y: Y(mean(14)) - 12, 'font-size': 12.5, 'font-weight': 700, fill: '#FF8A78' }, 'DataFarm, average per episode'));
+  [100, 1000].forEach(n => {
+    svg.appendChild(svgEl('line', { x1: X(n), x2: X(n), y1: Y(mean(n)), y2: Y(0), stroke: 'rgba(226,106,88,0.5)', 'stroke-dasharray': '3 4' }));
+    svg.appendChild(svgEl('circle', { cx: X(n), cy: Y(mean(n)), r: 6, fill: '#0A0E16', stroke: '#E26A58', 'stroke-width': 2.5 }));
+    svg.appendChild(svgEl('text', { x: X(n) + (n === N1 ? -10 : 9), y: n === N1 ? Y(c.teleopCn) - 7 : Y(mean(n)) - 12, 'text-anchor': n === N1 ? 'end' : 'start', 'font-size': 12.5, 'font-weight': 700, fill: '#FF8A78' }, `$${mean(n).toFixed(2)} at ${n.toLocaleString('en-US')}`));
   });
   const cursor = svgEl('line', { y1: T, y2: H - B, stroke: 'rgba(255,255,255,0.35)', opacity: 0 });
   svg.appendChild(cursor);
   host.insertBefore(svg, read);
   svg.addEventListener('pointermove', e => {
     const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * W;
-    const n = Math.round(Math.min(N, Math.max(1, (px - L) / (W - L - R) * N)));
+    const f = Math.min(1, Math.max(0, (px - L) / (W - L - R))), n = Math.round(N0 * Math.pow(N1 / N0, f));
     cursor.setAttribute('x1', X(n)); cursor.setAttribute('x2', X(n)); cursor.setAttribute('opacity', 1);
-    read.innerHTML = `<b>${n} episodes</b><br>DataFarm $${farm(n).toFixed(0)} &middot; teleop $${tel(n).toFixed(0)} &middot; new look $${teln(n).toFixed(0)}`;
-    read.style.left = Math.min(r.width - 230, Math.max(8, e.clientX - r.left + 12)) + 'px'; read.style.top = '14px';
+    read.innerHTML = `<b>${n.toLocaleString('en-US')} episodes</b><br>$${mean(n).toFixed(2)} per episode on average ($${lo(n).toFixed(2)}&ndash;${hi(n).toFixed(2)}) &middot; $${(mean(n) * n).toFixed(0)} in total`;
+    read.style.left = Math.min(r.width - 300, Math.max(8, e.clientX - r.left + 12)) + 'px'; read.style.top = '14px';
     read.classList.add('on');
   });
   svg.addEventListener('pointerleave', () => { read.classList.remove('on'); cursor.setAttribute('opacity', 0); });

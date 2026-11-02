@@ -371,30 +371,32 @@
   <div class="wrap">
     <div class="sec-head rv">
       <span class="kicker">Cost</span>
-      <h2>Pay once per task, not once per episode</h2>
-      <p>Teleoperation pays an operator for every episode and restages for every new tablecloth or light. The farm pays once to adapt a task, then only for rendering and review; a new appearance is a text change.</p>
+      <h2>Pay once per task, then only for rendering and review</h2>
+      <p>The farm pays once to adapt a task, with no person in the loop, then only for rendering and review of each episode; a new appearance is a text change. The farm's figures below are measured; the teleoperation figures are labour in North America and a quote from China.</p>
     </div>
     <div class="cost-cards">
       <div class="cc rv"><span class="cc-k">One-time, per task</span><span class="cc-v">$45</span><span class="cc-t">mean agent cost to adapt a task ($38&ndash;57 over five tasks), no human intervention</span></div>
-      <div class="cc rv"><span class="cc-k">Per farm episode</span><span class="cc-v">$1.27</span><span class="cc-t">mean marginal cost of an admitted episode: rendering, re-rendering, review</span></div>
-      <div class="cc muted rv"><span class="cc-k">Teleoperation, measured</span><span class="cc-v">$1.53</span><span class="cc-t">per episode from our collection log ($0.58&ndash;2.07); $2.09 with restaging for new appearance</span></div>
-      <div class="cc rv"><span class="cc-k">Farm pulls ahead after</span><span class="cc-v">&asymp;180</span><span class="cc-t">episodes of a task on average, or &asymp;60 when the data must cover new appearance</span></div>
+      <div class="cc rv"><span class="cc-k">Per farm episode</span><span class="cc-v">$0.71</span><span class="cc-t">mean marginal cost of an admitted episode ($0.18&ndash;1.27): rendering, re-rendering, review</span></div>
+      <div class="cc rv"><span class="cc-k">Average at 100 episodes</span><span class="cc-v">$1.16</span><span class="cc-t">per episode, one-time cost included ($0.57&ndash;1.84 over five tasks); $0.75 at 1,000. One hour of three-view data per task: $114, against a $117 quote in China and $290* of labour in North America</span></div>
+      <div class="cc rv"><span class="cc-k">New appearance</span><span class="cc-v">+$0</span><span class="cc-t">a new tablecloth or light is a text change in the render request: same cost per episode</span></div>
     </div>
     <div class="cost-row">
       <div class="cost-chart rv" id="cost-chart"><div class="cost-read" id="cost-read"></div></div>
       <div class="tcard rv">
         <table class="tbl">
-          <thead><tr><th>Task</th><th>One-time</th><th>Farm / ep.</th><th>Break-even<br>N=100</th><th>Teleop<br>original</th><th>Teleop<br>new look</th></tr></thead>
+          <thead><tr><th>Task</th><th>One-time</th><th>Farm / ep.</th><th>Avg. / ep.<br>N=100</th><th>Avg. / ep.<br>N=1,000</th><th>Per hour<br>1 h / task</th></tr></thead>
           <tbody>
-            <tr><td>Stack cups</td><td>44.26</td><td>1.56</td><td>2.02</td><td>1.87</td><td>2.43</td></tr>
-            <tr><td>Weigh apple</td><td>41.29</td><td>1.44</td><td>1.87</td><td>1.37</td><td>1.93</td></tr>
-            <tr><td>Beat drum</td><td>38.43</td><td>0.32</td><td>0.71</td><td>0.58</td><td>1.14</td></tr>
-            <tr><td>Pull drawer</td><td>43.61</td><td>0.75</td><td>1.20</td><td>1.74</td><td>2.30</td></tr>
-            <tr><td>Fold towel</td><td>57.02</td><td>2.29</td><td>2.89</td><td>2.07</td><td>2.63</td></tr>
-            <tr class="us"><td>Mean</td><td>44.92</td><td>1.27</td><td>1.74</td><td>1.53</td><td>2.09</td></tr>
+            <tr><td>Stack cups</td><td>44.26</td><td>0.86</td><td>1.30</td><td>0.90</td><td>115</td></tr>
+            <tr><td>Weigh apple</td><td>41.29</td><td>0.81</td><td>1.22</td><td>0.85</td><td>134</td></tr>
+            <tr><td>Beat drum</td><td>38.43</td><td>0.18</td><td>0.57</td><td>0.22</td><td>96</td></tr>
+            <tr><td>Pull drawer</td><td>43.61</td><td>0.43</td><td>0.86</td><td>0.47</td><td>89</td></tr>
+            <tr><td>Fold towel</td><td>57.02</td><td>1.27</td><td>1.84</td><td>1.33</td><td>137</td></tr>
+            <tr class="us"><td>Mean</td><td>44.92</td><td>0.71</td><td>1.16</td><td>0.75</td><td>114</td></tr>
+            <tr><td>Teleop., N. America*</td><td>&ndash;</td><td>2.86</td><td>2.86</td><td>2.86</td><td>290</td></tr>
+            <tr><td>Teleop., China, quote</td><td>&ndash;</td><td>1.16</td><td>1.16</td><td>1.16</td><td>117</td></tr>
           </tbody>
         </table>
-        <p class="fine">USD. Break-even: teleoperation cost per episode above which the farm is cheaper for 100 episodes. In the original scene the farm is cheaper for 100 episodes on pull drawer, and for 1,000 episodes also on stack cups and beat drum. With new appearance (an assumed restaging of 3&nbsp;min every five episodes), it is cheaper for 100 episodes on every task but fold towel, and for 1,000 on all five.</p>
+        <p class="fine">USD. One-time: agent cost of adapting the task, from the calibration episode to 100 qualified simulated episodes and a render contract, at standard API pricing. Farm / ep.: H3 rendering on rented GPUs, re-rendering of flagged chunks, and independent review per admitted episode. Avg. / ep.: one-time cost spread over N episodes plus the per-episode cost; it falls towards the per-episode cost, which is dominated by rendering. Per hour, 1 h / task: the cost of collecting one hour of synchronized three-view data for a task, one-time cost included. Teleop., N. America: *estimated with Claude Opus 5.5, the labour of teleoperated collection (operator, supervision and review, post-processing; no robot, venue, or setup), $190&ndash;520 per usable hour across our assumptions. Teleop., China: a full-service quote for custom data, about RMB 800 per hour. Both per episode at the farm's mean length.</p>
       </div>
     </div>
   </div>
@@ -422,7 +424,7 @@
     <p class="cap rv" style="margin-top:-16px;margin-bottom:34px"><b>Following the simulation in every view.</b> Red boxes mark views that contradict the simulator or the other views of the same frame.</p>
     <details class="abstract rv">
       <summary>Abstract</summary>
-      <p>Teleoperation remains the default way to collect robot demonstrations, but every episode costs robot and operator time, and every new task starts from scratch. We ask whether a coding agent can take over the teleoperator's job. In our data farm, DataFarm, the agent receives a data request and one calibration episode of the robot in the target scene and rebuilds the task in simulation: it writes the scene, an expert controller, and a success judge. The simulator supplies exact actions, and a video model conditioned on real images renders each rollout as photographic video, generating all camera views together so that they stay consistent. The output is real-ready data: synchronized views from the robot's cameras, labelled with the robot's own actions, on which a policy is trained directly and deployed on the real robot. Because agents write both the expert and its checks, and the video model may alter the scene, the farm separates certification from production: a judge hidden from the expert scores it on held-out initial states, and independent reviewers compare every rendered episode with its simulated state before admission. On five real-robot tasks, policies trained only on farm data match policies trained on as many teleoperated episodes (93 vs. 84 successes in 100 trials), and under an unseen tablecloth and coloured light they keep 87 successes where the teleoperation-trained policies fall to 46. Adapting a task is fully automatic and costs $45 of API usage on average; for 100 episodes, the farm is cheaper than teleoperation once a teleoperated episode costs more than $0.71&ndash;2.89.</p>
+      <p>Teleoperation remains the default way to collect robot demonstrations, but every episode costs robot and operator time, and every new task starts from scratch. We ask whether a coding agent can take over the teleoperator's job. In our DataFarm, the agent receives a data request and one calibration episode of the robot in the target scene and rebuilds the task in simulation: it writes the scene, an expert controller, and a success judge. The simulator supplies exact actions, and a video model conditioned on real images renders each rollout as photographic video, generating all camera views together consistently. The output is real-ready data: synchronized camera views labelled with the robot's actions, on which a policy is trained directly and deployed on the real robot. Independent judges certify the expert and every rendered episode before admission. On five real-robot tasks, policies trained only on farm data match policies trained on as many teleoperated episodes (93 vs. 84 successes in 100 trials), and under an unseen tablecloth and coloured light they keep 87 successes where the teleoperation-trained policies fall to 46. Adapting a task is fully automatic and costs $45 of API usage on average, paid once per task; every further episode costs $0.71 on average for rendering and review, with no robot or operator. One hour of three-view data for a task costs $114 on average, one-time cost included, about the same as a quote of $117 for teleoperation in China and below $290 in labour alone in North America.</p>
     </details>
   </div>
 </section>
@@ -463,7 +465,7 @@
     "cups": "Two cups are stacked and one is still to be placed. Called directly on one canvas, the video model shows a finished stack and cups lying on their side; per camera, extra grippers and other stacks appear. DataFarm agrees with the simulator in every view."
   },
   "appearance": ["light-wood table, warm lamp light", "blue felt, cool light", "marble table", "brushed steel"],
-  "cost": {"adapt": 44.92, "calib": 1.53, "m": 1.27, "teleop": 1.53, "teleopNew": 2.09, "nmax": 400}
+  "cost": {"adapt": [44.26, 41.29, 38.43, 43.61, 57.02], "m": [0.86, 0.81, 0.18, 0.43, 1.27], "nmin": 10, "nmax": 1000, "teleop": 2.86, "teleopCn": 1.16}
 }</script>
 </main>
 
