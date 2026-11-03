@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PyRUA-DataFarm: GPT-6 Astra as a Cost-Efficient Teleoperator for Real-Ready Robot Data</title>
+  <title>PyRUA-DataFarm: LLM Agent as a Cost-Efficient Teleoperator for Real-Ready Robot Data</title>
   <meta name="description" content="PyRUA-DataFarm: a coding agent turns a data request and one calibration episode of the scene into real-ready robot data: synchronized photographic camera views labelled with the robot's own actions.">
-  <meta name="keywords" content="Agentic data generation, Robot learning, Real-to-sim-to-real, Video generation, Teleoperation, GPT-6 Astra">
-  <meta name="author" content="Kewei Zhang, Juncheng Ma, Duomin Wang, Guodong Lv, Ruiyang Si, Chuanrui Zhang, Yuxuan Chen, Hao Chen, Yichen Liu, Feixiang Ruan, Yufan Deng, Enze Xie, Daquan Zhou">
+  <meta name="keywords" content="Agentic data generation, Robot learning, Real-to-sim-to-real, Video generation, Teleoperation, Coding agents">
+  <meta name="author" content="Kewei Zhang, Juncheng Ma, Guodong Lv, Duomin Wang, Feixiang Ruan, Ruiyang Si, Chuanrui Zhang, Yuxuan Chen, Hao Chen, Yichen Liu, Yintianrun Zhang, Yufan Deng, Enze Xie, Daquan Zhou">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Peking University, NVIDIA">
-  <meta property="og:title" content="PyRUA-DataFarm: GPT-6 Astra as a Cost-Efficient Teleoperator for Real-Ready Robot Data">
-  <meta property="og:description" content="One calibration episode in, real-ready robot data out. Policies trained only on farm data keep 87 of 100 real-robot successes under unseen appearance, where teleoperation data falls to 46.">
+  <meta property="og:title" content="PyRUA-DataFarm: LLM Agent as a Cost-Efficient Teleoperator for Real-Ready Robot Data">
+  <meta property="og:description" content="One calibration episode in, real-ready robot data out. Policies trained only on farm data keep 87 successes in 100 real-robot trials under unseen appearance, where teleoperation-trained policies fall to 46.">
   <meta property="og:image" content="static/images/teaser.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#0A0E16">
@@ -47,19 +47,20 @@
 <section class="hero">
   <div class="hero-title">
     <div class="wordmark" aria-label="PyRUA-DataFarm"><span class="wm-py">PyRUA</span><span class="wm-dash">-</span><span class="wm-farm">DataFarm</span></div>
-    <h1>GPT-6 Astra as a Cost-Efficient Teleoperator for <span class="hl">Real-Ready</span> Robot Data</h1>
+    <h1>LLM Agent as a Cost-Efficient Teleoperator for <span class="hl">Real-Ready</span> Robot Data</h1>
     <p class="tagline">A coding agent does the teleoperator's job. <b>One calibration episode in, real-ready robot data out.</b></p>
     <div class="authors">
       <span><a href="https://xiwen1.github.io/" target="_blank" rel="noopener">Kewei Zhang</a><sup>1*</sup></span>
       <span>Juncheng Ma<sup>1*</sup></span>
-      <span><a href="https://dorniwang.github.io/" target="_blank" rel="noopener">Duomin Wang</a><sup>2&dagger;</sup></span>
       <span>Guodong Lv<sup>1</sup></span>
+      <span><a href="https://dorniwang.github.io/" target="_blank" rel="noopener">Duomin Wang</a><sup>2&dagger;</sup></span>
+      <span><a href="https://vme0522.github.io/" target="_blank" rel="noopener">Feixiang Ruan</a><sup>1</sup></span>
       <span>Ruiyang Si<sup>1</sup></span>
       <span>Chuanrui Zhang<sup>2</sup></span>
       <span>Yuxuan Chen<sup>1</sup></span>
       <span>Hao Chen<sup>1</sup></span>
       <span>Yichen Liu<sup>1</sup></span>
-      <span><a href="https://vme0522.github.io/" target="_blank" rel="noopener">Feixiang Ruan</a><sup>1</sup></span>
+      <span>Yintianrun Zhang<sup>1</sup></span>
       <span>Yufan Deng<sup>1</sup></span>
       <span>Enze Xie<sup>2&dagger;</sup></span>
       <span><a href="https://zhoudaquan.github.io/homepage.io/index.html" target="_blank" rel="noopener">Daquan Zhou</a><sup>1&dagger;</sup></span>
@@ -98,7 +99,7 @@
     </div>
     <div class="show-foot">
       <div class="tabs" data-group="show" role="tablist" aria-label="Episode">
-        <button data-key="stack">Stack cups</button><button data-key="drawer">Put cube in drawer</button>
+        <button data-key="stack">Stack cups</button><button data-key="drawer">Pull drawer</button>
       </div>
       <p class="fine">Left: the simulated rollout. Right: the farm episode rendered from it. Head camera on top, wrist cameras below; the views agree with each other, and every frame keeps the exact action behind it.</p>
     </div>
@@ -107,7 +108,7 @@
   <div class="stats">
     <a class="stat" href="#results"><span class="stat-k">Unseen tablecloth &amp; light</span><span class="stat-v"><b data-count="87">87</b><i>vs 46</i></span><span class="stat-t">real-robot successes in 100 trials, farm data vs. as many teleoperated episodes</span></a>
     <a class="stat" href="#results"><span class="stat-k">Original scene</span><span class="stat-v"><b data-count="93">93</b><i>vs 84</i></span><span class="stat-t">successes in 100 trials over five tasks, without a single real demonstration in training</span></a>
-    <a class="stat" href="#cost"><span class="stat-k">No person in the loop</span><span class="stat-v"><b data-count="45" data-prefix="$">$45</b><i>per task</i></span><span class="stat-t">mean one-time agent cost to adapt a new task, fully automatic</span></a>
+    <a class="stat" href="#cost"><span class="stat-k">No person in the loop</span><span class="stat-v"><b data-count="21" data-prefix="$">$21</b><i>per task</i></span><span class="stat-t">mean one-time agent cost to adapt a new task, fully automatic</span></a>
     <a class="stat" href="#contrast"><span class="stat-k">Every camera</span><span class="stat-v"><b data-count="3">3</b><i>views, one generation</i></span><span class="stat-t">head and wrist cameras rendered together, all following the same simulated state</span></a>
   </div>
 </section>
@@ -144,7 +145,7 @@
         <h3>What DataFarm adds to the video model</h3>
         <p><b>Structure from the simulator, appearance from the real cameras.</b> Edge maps of the untextured simulator video fix arm pose, object positions, and timing; real reference frames and a picture of the robot supply only the look.</p>
         <p><b>All cameras in one generation.</b> Head and wrist views are tiled on one canvas and generated as one video, so they share lighting and materials and agree on which objects exist and what each gripper holds.</p>
-        <p><b>References and prompts that add no content,</b> and <b>long episodes without drift</b>: references match the simulated task state, prompts describe only the current segment, and long episodes are independent chunks joined without changing geometry or timing.</p>
+        <p><b>References and prompts that add no content,</b> and <b>long episodes without drift</b>: references match the simulated task state, prompts describe only the current segment, and long episodes are generated as independent chunks and joined where neighbouring chunks differ least.</p>
       </div>
       <div class="tcard rv">
         <table class="tbl">
@@ -291,9 +292,9 @@
         <div class="case rv"><h3>Phantom arm</h3><p>An arm the simulator does not contain.</p>
           <div class="pair"><div><img src="static/demo/b_phantom_sim.jpg" alt="Simulator frame" loading="lazy"><span class="chip">simulator</span></div>
             <div class="rej"><img src="static/demo/b_phantom_gen.jpg" alt="Rejected render with an extra arm" loading="lazy"><span class="chip red"><i class="fas fa-times"></i> render: rejected</span></div></div></div>
-        <div class="case rv"><h3>Future state drawn early</h3><p>The cube is in the drawer before the simulator puts it there.</p>
+        <div class="case rv"><h3>Future state drawn early</h3><p>The block is in the drawer before the simulator puts it there.</p>
           <div class="pair"><div><img src="static/demo/b_future_sim.jpg" alt="Simulator frame" loading="lazy"><span class="chip">simulator</span></div>
-            <div class="rej"><img src="static/demo/b_future_gen.jpg" alt="Rejected render with the cube already in the drawer" loading="lazy"><span class="chip red"><i class="fas fa-times"></i> render: rejected</span></div></div></div>
+            <div class="rej"><img src="static/demo/b_future_gen.jpg" alt="Rejected render with the block already in the drawer" loading="lazy"><span class="chip red"><i class="fas fa-times"></i> render: rejected</span></div></div></div>
         <div class="case rv"><h3>Invented cloth</h3><p>A wrist view adds towel where the simulation is empty.</p>
           <div class="pair"><div><img src="static/demo/b_invent_sim_f5.jpg" alt="Simulator frame" loading="lazy"><span class="chip">simulator</span></div>
             <div class="rej"><img src="static/demo/b_invent_gen_f5.jpg" alt="Rejected render with invented cloth" loading="lazy"><span class="chip red"><i class="fas fa-times"></i> render: rejected</span></div></div></div>
@@ -371,32 +372,32 @@
   <div class="wrap">
     <div class="sec-head rv">
       <span class="kicker">Cost</span>
-      <h2>Pay once per task, then only for rendering and review</h2>
-      <p>The farm pays once to adapt a task, with no person in the loop, then only for rendering and review of each episode; a new appearance is a text change. The farm's figures below are measured; the teleoperation figures are labour in North America and a quote from China.</p>
+      <h2>Pay once per task, then only per episode</h2>
+      <p>The farm pays once to adapt a task, with no person in the loop, then only for simulating, rendering, and reviewing each episode; a new appearance is a text change. The farm's figures below count only published or measured inputs; the teleoperation figures are labour in North America and a quote from China.</p>
     </div>
     <div class="cost-cards">
-      <div class="cc rv"><span class="cc-k">One-time, per task</span><span class="cc-v">$45</span><span class="cc-t">mean agent cost to adapt a task ($38&ndash;57 over five tasks), no human intervention</span></div>
-      <div class="cc rv"><span class="cc-k">Per farm episode</span><span class="cc-v">$0.71</span><span class="cc-t">mean marginal cost of an admitted episode ($0.18&ndash;1.27): rendering, re-rendering, review</span></div>
-      <div class="cc rv"><span class="cc-k">Average at 100 episodes</span><span class="cc-v">$1.16</span><span class="cc-t">per episode, one-time cost included ($0.57&ndash;1.84 over five tasks); $0.75 at 1,000. One hour of three-view data per task: $114, against a $117 quote in China and $290* of labour in North America</span></div>
+      <div class="cc rv"><span class="cc-k">One-time, per task</span><span class="cc-v">$21</span><span class="cc-t">mean agent cost to adapt a task ($10&ndash;37 over five tasks), plus $5 for a render contract</span></div>
+      <div class="cc rv"><span class="cc-k">Per farm episode</span><span class="cc-v">$0.80</span><span class="cc-t">mean marginal cost of an admitted episode ($0.26&ndash;1.41): simulation, rendering, re-rendering, review</span></div>
+      <div class="cc rv"><span class="cc-k">Average at 100 episodes</span><span class="cc-v">$1.06</span><span class="cc-t">per episode, one-time and contract costs included ($0.49&ndash;1.84 over five tasks); $0.83 at 1,000. One hour of three-view data per task: $107, against a $117 quote in China and $290* of labour in North America</span></div>
       <div class="cc rv"><span class="cc-k">New appearance</span><span class="cc-v">+$0</span><span class="cc-t">a new tablecloth or light is a text change in the render request: same cost per episode</span></div>
     </div>
     <div class="cost-row">
       <div class="cost-chart rv" id="cost-chart"><div class="cost-read" id="cost-read"></div></div>
       <div class="tcard rv">
         <table class="tbl">
-          <thead><tr><th>Task</th><th>One-time</th><th>Farm / ep.</th><th>Avg. / ep.<br>N=100</th><th>Avg. / ep.<br>N=1,000</th><th>Per hour<br>1 h / task</th></tr></thead>
+          <thead><tr><th>Task</th><th>One-time</th><th>Contract</th><th>Farm / ep.</th><th>Avg. / ep.<br>N=100</th><th>Avg. / ep.<br>N=1,000</th><th>Per hour<br>1 h / task</th></tr></thead>
           <tbody>
-            <tr><td>Stack cups</td><td>44.26</td><td>0.86</td><td>1.30</td><td>0.90</td><td>115</td></tr>
-            <tr><td>Weigh apple</td><td>41.29</td><td>0.81</td><td>1.22</td><td>0.85</td><td>134</td></tr>
-            <tr><td>Beat drum</td><td>38.43</td><td>0.18</td><td>0.57</td><td>0.22</td><td>96</td></tr>
-            <tr><td>Pull drawer</td><td>43.61</td><td>0.43</td><td>0.86</td><td>0.47</td><td>89</td></tr>
-            <tr><td>Fold towel</td><td>57.02</td><td>1.27</td><td>1.84</td><td>1.33</td><td>137</td></tr>
-            <tr class="us"><td>Mean</td><td>44.92</td><td>0.71</td><td>1.16</td><td>0.75</td><td>114</td></tr>
-            <tr><td>Teleop., N. America*</td><td>&ndash;</td><td>2.86</td><td>2.86</td><td>2.86</td><td>290</td></tr>
-            <tr><td>Teleop., China, quote</td><td>&ndash;</td><td>1.16</td><td>1.16</td><td>1.16</td><td>117</td></tr>
+            <tr><td>Stack cups</td><td>18.22</td><td>6.11</td><td>0.93</td><td>1.17</td><td>0.96</td><td>101</td></tr>
+            <tr><td>Weigh apple</td><td>10.33</td><td>4.72</td><td>0.89</td><td>1.04</td><td>0.91</td><td>117</td></tr>
+            <tr><td>Beat drum</td><td>19.25</td><td>4.11</td><td>0.26</td><td>0.49</td><td>0.28</td><td>106</td></tr>
+            <tr><td>Pull drawer</td><td>19.40</td><td>4.49</td><td>0.52</td><td>0.76</td><td>0.54</td><td>79</td></tr>
+            <tr><td>Fold towel</td><td>37.38</td><td>6.23</td><td>1.41</td><td>1.84</td><td>1.45</td><td>132</td></tr>
+            <tr class="us"><td>Mean</td><td>20.92</td><td>5.13</td><td>0.80</td><td>1.06</td><td>0.83</td><td>107</td></tr>
+            <tr><td>Teleop., N. America*</td><td>&ndash;</td><td>&ndash;</td><td>2.86</td><td>2.86</td><td>2.86</td><td>290</td></tr>
+            <tr><td>Teleop., China, quote</td><td>&ndash;</td><td>&ndash;</td><td>1.16</td><td>1.16</td><td>1.16</td><td>117</td></tr>
           </tbody>
         </table>
-        <p class="fine">USD. One-time: agent cost of adapting the task, from the calibration episode to 100 qualified simulated episodes and a render contract, at standard API pricing. Farm / ep.: H3 rendering on rented GPUs, re-rendering of flagged chunks, and independent review per admitted episode. Avg. / ep.: one-time cost spread over N episodes plus the per-episode cost; it falls towards the per-episode cost, which is dominated by rendering. Per hour, 1 h / task: the cost of collecting one hour of synchronized three-view data for a task, one-time cost included. Teleop., N. America: *estimated with Claude Opus 5.5, the labour of teleoperated collection (operator, supervision and review, post-processing; no robot, venue, or setup), $190&ndash;520 per usable hour across our assumptions. Teleop., China: a full-service quote for custom data, about RMB 800 per hour. Both per episode at the farm's mean length.</p>
+        <p class="fine">USD. One-time: agent cost from the calibration episode to five admitted simulated episodes, at standard API pricing, with Claude Opus 5.5 in SoL-Pi, and in Claude Code on fold towel. Contract: the render contract. Farm / ep.: rollouts and audit, H3 rendering on rented GPUs, re-rendering of flagged chunks, and independent review per admitted episode. Avg. / ep.: one-time and contract costs spread over N episodes plus the per-episode cost; it falls towards the per-episode cost. Per hour, 1 h / task: the cost of collecting one hour of synchronized three-view data for a task, one-time and contract costs included. Teleop., N. America: *estimated with Claude Opus 5.5, the labour of teleoperated collection (operator, supervision and review, post-processing; no robot, venue, or setup), $190&ndash;520 per usable hour across our assumptions. Teleop., China: a full-service quote for custom data, about RMB 800 per hour. Both per episode at the farm's mean length.</p>
       </div>
     </div>
   </div>
@@ -411,7 +412,7 @@
       <p>Because agents write both the expert and its checks, and the video model may alter the scene, every stage is checked by a component other than its producer.</p>
     </div>
     <ol class="mini-steps">
-      <li class="rv"><b>Grounding and simulator qualification.</b> The agent aligns the cameras, fits scale and physical parameters, and labels each quantity as measured, fitted, assumed, or unknown; skill probes check that the simulator can reproduce the actions the task needs.</li>
+      <li class="rv"><b>Grounding and simulator qualification.</b> The agent fits the cameras and metric scale, estimates object geometry and articulation, and labels each quantity as measured, fitted, assumed, or unknown; short probes check that the simulator can reproduce the skills the task requires.</li>
       <li class="rv"><b>Task contract and expert.</b> The expert is developed against a judge it cannot inspect and admitted only on held-out initial states; every admitted trajectory is one continuous execution.</li>
       <li class="rv"><b>Rendering with real images.</b> The renderer may alter appearance but not geometry, objects, or timing; all cameras are generated together from the simulator's structure.</li>
       <li class="rv"><b>Verification and admission.</b> Every rendered episode is compared with its simulated state by machine checks and an independent reviewer; all attempts and failures are kept.</li>
@@ -419,12 +420,12 @@
     <figure class="paper-fig mfig rv"><img src="static/images/teaser.jpg" alt="What the farm delivers" loading="lazy" width="2400" height="1132"></figure>
     <p class="cap rv" style="margin-top:-16px;margin-bottom:34px"><b>What the farm delivers.</b> (a) The same frame of a simulator rollout and of the farm episode for each task. (b) From a request and one calibration episode, the agent builds the task in simulation, and the video model renders each rollout in the original scene or a scene described by text. (c) Real-robot successes. (d) Mean costs over the five tasks.</p>
     <figure class="paper-fig mfig rv"><img src="static/images/method.jpg" alt="The DataFarm pipeline on one drawer episode" loading="lazy" width="2400" height="714"></figure>
-    <p class="cap rv" style="margin-top:-16px;margin-bottom:34px"><b>The pipeline, followed on one drawer episode.</b> The reusable skills, role instructions, render templates, verifiers, and harness are versioned apart from the task artifacts the agent writes.</p>
+    <p class="cap rv" style="margin-top:-16px;margin-bottom:34px"><b>The DataFarm pipeline, followed on one drawer episode.</b> The capability layer is shared by all tasks; everything above it is written for this task.</p>
     <figure class="paper-fig mfig rv"><img src="static/images/views.jpg" alt="The same simulated frame rendered by direct calls and by DataFarm, with contradictions boxed" loading="lazy" width="2400" height="1152"></figure>
     <p class="cap rv" style="margin-top:-16px;margin-bottom:34px"><b>Following the simulation in every view.</b> Red boxes mark views that contradict the simulator or the other views of the same frame.</p>
     <details class="abstract rv">
       <summary>Abstract</summary>
-      <p>Teleoperation remains the default way to collect robot demonstrations, but every episode costs robot and operator time, and every new task starts from scratch. We ask whether a coding agent can take over the teleoperator's job. In our DataFarm, the agent receives a data request and one calibration episode of the robot in the target scene and rebuilds the task in simulation: it writes the scene, an expert controller, and a success judge. The simulator supplies exact actions, and a video model conditioned on real images renders each rollout as photographic video, generating all camera views together consistently. The output is real-ready data: synchronized camera views labelled with the robot's actions, on which a policy is trained directly and deployed on the real robot. Independent judges certify the expert and every rendered episode before admission. On five real-robot tasks, policies trained only on farm data match policies trained on as many teleoperated episodes (93 vs. 84 successes in 100 trials), and under an unseen tablecloth and coloured light they keep 87 successes where the teleoperation-trained policies fall to 46. Adapting a task is fully automatic and costs $45 of API usage on average, paid once per task; every further episode costs $0.71 on average for rendering and review, with no robot or operator. One hour of three-view data for a task costs $114 on average, one-time cost included, about the same as a quote of $117 for teleoperation in China and below $290 in labour alone in North America.</p>
+      <p>Teleoperation remains the default way to collect robot demonstrations, but every episode costs robot and operator time, and every new task starts from scratch. We ask whether a coding agent can take over the teleoperator's job. In our DataFarm, the agent receives a data request and one calibration episode of the robot in the target scene and rebuilds the task in simulation: it writes the scene, an expert controller, and a success judge. The simulator supplies exact actions, and a video model conditioned on real images renders each rollout as photographic video, generating all camera views together consistently. The output is real-ready data: synchronized camera views labelled with the robot's actions, on which a policy can be trained directly and deployed on the real robot. Independent judges certify the expert and every rendered episode before admission. On five real-robot tasks, policies trained only on farm data match policies trained on as many teleoperated episodes (93 vs. 84 successes in 100 trials), and under an unseen tablecloth and coloured light they keep 87 successes where the teleoperation-trained policies fall to 46. Adapting a task is fully automatic and costs $21 of API usage on average, paid once per task, plus $5 for a render contract; every further episode costs $0.80 on average for simulation, rendering, and review, with no robot or operator. One hour of three-view data for a task costs $107 on average, these costs included, slightly below a quote of $117 for teleoperation in China and below $290 in labour alone in North America.</p>
     </details>
   </div>
 </section>
@@ -433,8 +434,8 @@
   <div class="wrap narrow">
     <div class="bib-head"><h2>BibTeX</h2><button class="pill copy" id="copy-bib" type="button"><i class="fas fa-copy"></i><span>Copy</span></button></div>
     <pre id="bibtex-code"><code>@article{zhang2026datafarm,
-  title={PyRUA-DataFarm: GPT-6 Astra as a Cost-Efficient Teleoperator for Real-Ready Robot Data},
-  author={Zhang, Kewei and Ma, Juncheng and Wang, Duomin and Lv, Guodong and Si, Ruiyang and Zhang, Chuanrui and Chen, Yuxuan and Chen, Hao and Liu, Yichen and Ruan, Feixiang and Deng, Yufan and Xie, Enze and Zhou, Daquan},
+  title={PyRUA-DataFarm: LLM Agent as a Cost-Efficient Teleoperator for Real-Ready Robot Data},
+  author={Zhang, Kewei and Ma, Juncheng and Lv, Guodong and Wang, Duomin and Ruan, Feixiang and Si, Ruiyang and Zhang, Chuanrui and Chen, Yuxuan and Chen, Hao and Liu, Yichen and Zhang, Yintianrun and Deng, Yufan and Xie, Enze and Zhou, Daquan},
   journal={arXiv preprint},
   year={2026}
 }</code></pre>
@@ -461,11 +462,11 @@
     "towel":  {"line": "Fold towel. The simulator models how the cloth moves; the renderer gives it the texture of the real towel.", "speed": ""}
   },
   "views": {
-    "drawer": "The simulator has already placed the cube in the open top drawer. Both direct calls still show it on the table with the drawers closed, and their wrist views show the arms from outside. DataFarm shows the cube in the drawer in every view.",
+    "drawer": "The simulator has already placed the block in the open top drawer. Both direct calls still show it on the table with the drawers closed, and their wrist views show the arms from outside. DataFarm shows the block in the drawer in every view.",
     "cups": "Two cups are stacked and one is still to be placed. Called directly on one canvas, the video model shows a finished stack and cups lying on their side; per camera, extra grippers and other stacks appear. DataFarm agrees with the simulator in every view."
   },
   "appearance": ["light-wood table, warm lamp light", "blue felt, cool light", "marble table", "brushed steel"],
-  "cost": {"adapt": [44.26, 41.29, 38.43, 43.61, 57.02], "m": [0.86, 0.81, 0.18, 0.43, 1.27], "nmin": 10, "nmax": 1000, "teleop": 2.86, "teleopCn": 1.16}
+  "cost": {"adapt": [24.33, 15.05, 23.36, 23.89, 43.61], "m": [0.93, 0.89, 0.26, 0.52, 1.41], "nmin": 10, "nmax": 1000, "teleop": 2.86, "teleopCn": 1.16}
 }</script>
 </main>
 

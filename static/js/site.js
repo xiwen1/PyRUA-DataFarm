@@ -265,7 +265,7 @@ function setupCost(data) {
   const lo = n => Math.min(...c.adapt.map((_, i) => per(i, n))), hi = n => Math.max(...c.adapt.map((_, i) => per(i, n)));
   const mMean = c.m.reduce((s, v) => s + v, 0) / K, ymax = Math.ceil(hi(N0));
   const X = n => L + (W - L - R) * Math.log10(n / N0) / Math.log10(N1 / N0), Y = v => T + (H - T - B) * (1 - v / ymax);
-  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Farm cost per episode for N episodes of one task, against two teleoperation estimates' });
+  const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Farm cost per episode for N episodes of one task, against a teleoperation labour estimate and a quote' });
   for (let v = 0; v <= ymax; v += 1) {
     svg.appendChild(svgEl('line', { x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: 'rgba(255,255,255,0.07)' }));
     svg.appendChild(svgEl('text', { x: L - 8, y: Y(v) + 4, 'text-anchor': 'end', 'font-size': 12, fill: '#7D8899' }, '$' + v));
@@ -280,9 +280,9 @@ function setupCost(data) {
   svg.appendChild(svgEl('line', { x1: X(N0), x2: X(N1), y1: Y(c.teleop), y2: Y(c.teleop), stroke: '#E8EDF4', 'stroke-dasharray': '10 4 2 4', 'stroke-width': 1.8 }));
   svg.appendChild(svgEl('text', { x: X(N1) - 6, y: Y(c.teleop) - 8, 'text-anchor': 'end', 'font-size': 12.5, 'font-weight': 700, fill: '#E8EDF4' }, `teleoperation labour, North America*: $${c.teleop.toFixed(2)}`));
   svg.appendChild(svgEl('line', { x1: X(N0), x2: X(N1), y1: Y(c.teleopCn), y2: Y(c.teleopCn), stroke: '#F0B35A', 'stroke-dasharray': '10 4 2 4', 'stroke-width': 1.8 }));
-  svg.appendChild(svgEl('text', { x: X(N0) + 6, y: Y(c.teleopCn) - 8, 'font-size': 12.5, 'font-weight': 700, fill: '#F0B35A' }, `teleoperation quote, China: $${c.teleopCn.toFixed(2)}`));
+  svg.appendChild(svgEl('text', { x: X(N0) + 6, y: Y(c.teleopCn) - 8, 'font-size': 12.5, 'font-weight': 700, fill: '#F0B35A' }, `teleop. quote, China: $${c.teleopCn.toFixed(2)}`));
   svg.appendChild(svgEl('polyline', { points: pts(mean, ns), fill: 'none', stroke: '#E26A58', 'stroke-width': 3.4, 'stroke-linecap': 'round' }));
-  svg.appendChild(svgEl('text', { x: X(14), y: Y(mean(14)) - 12, 'font-size': 12.5, 'font-weight': 700, fill: '#FF8A78' }, 'DataFarm, average per episode'));
+  svg.appendChild(svgEl('text', { x: X(12), y: Y(3.5), 'font-size': 12.5, 'font-weight': 700, fill: '#FF8A78' }, 'DataFarm, average per episode'));
   [100, 1000].forEach(n => {
     svg.appendChild(svgEl('line', { x1: X(n), x2: X(n), y1: Y(mean(n)), y2: Y(0), stroke: 'rgba(226,106,88,0.5)', 'stroke-dasharray': '3 4' }));
     svg.appendChild(svgEl('circle', { cx: X(n), cy: Y(mean(n)), r: 6, fill: '#0A0E16', stroke: '#E26A58', 'stroke-width': 2.5 }));
