@@ -50,8 +50,8 @@ async function setupShowcase() {
   let segs = null;
   try { segs = await (await fetch('static/demo/show.json')).json(); } catch (e) { segs = null; }
   const ARM = { L: '#E26A58', R: '#5EC8DC' };
-  const order = ['stack', 'drawer'];
-  let key = 'stack', vertical = false;
+  const order = ['towel', 'stack', 'drawer'];
+  let key = 'towel', vertical = false;
   const W = 800, H = 676, HH = H * 2 / 3;                       // one T panel: head on top (2/3), wrists below
   function layout() {
     vertical = cv.parentElement.clientWidth < 640;
@@ -134,8 +134,8 @@ async function setupShowcase() {
   const pick = tabs('show', 'key', k => {
     key = k; layout(); staticLayer();
     setSource(v, `static/demo/show_${k}.mp4`) || (v.currentTime = 0, playSafe(v));
-  }, 'stack');
-  v.addEventListener('ended', () => pick(order[(order.indexOf(key) + 1) % order.length]));   // alternate the two episodes
+  }, 'towel');
+  v.addEventListener('ended', () => pick(order[(order.indexOf(key) + 1) % order.length]));   // cycle through the episodes
   window.addEventListener('resize', () => { const was = vertical; layout(); if (was !== vertical) staticLayer(); });
   onFrames(v, draw);
   playSafe(v);
