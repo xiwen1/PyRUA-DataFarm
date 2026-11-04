@@ -53,7 +53,7 @@ Order of the page, as in the demo:
   - step clips;
   - rejected renders.
 
-Still to fill: the Paper / arXiv / Code / Data links (marked "soon") and the arXiv id in the BibTeX. To deploy on GitHub
+Still to fill: the Paper / arXiv / Code links (marked "soon") and the arXiv id in the BibTeX. To deploy on GitHub
 Pages, copy this folder to the root of a Pages repo (e.g. DAGroup-PKU/DataFarm).
 
 Keep the page in step with the paper:
